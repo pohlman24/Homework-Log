@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Course>
+
+@{
+    ViewData["Title"] = "Course list";
+}
+<div class="flex-md-row justify-content-center">
+            <a asp-controller="Course" asp-action="Create" style="float:right;margin-top:20px; margin-right:10px;" class="btn btn-primary bg-success ">
+                    &nbsp; Add Course &nbsp; <i class="bi bi-plus-circle"></i>
+            </a>
+</div>
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        @*style="cursor:pointer;" onclick="location.href= 'Course/Details/@item.ID'"*@
+        <div class="col-md-4 col-xs-6 col-lg-3 border-primary mb-3 mt-3">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white bg-info">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                    @item.CourseName
+                                    <a style="margin-left:8px;" class="text-danger float-end" asp-action="Delete" asp-route-id="@item.ID"><i class="bi bi-trash3"></i></a>
+                                    <a class="text-white float-end" asp-action="Edit" asp-route-id="@item.ID"><i class="bi bi-pencil-square"></i></a> 
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div style="height:200px; width:200%; overflow:hidden" class="card-body">
+                            @for(var i = 0; i < @item.Assignments.Count(); i++)
+                            {
+                                @if (i >= 4)
+                                {
+                                    <p> Click to see full List</p>
+                                }
+                                <ul>
+                                    <li>@item.Assignments.ElementAt(i).AssignmentName.Trim('"') 
+                                        <span class="float-end">@item.Assignments.ElementAt(i).DueDate</span>
+                                    </li>
+                                </ul>  
+                            }
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-footer ">
+                            <p class="card-text">
+                                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.ID"> View Course</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

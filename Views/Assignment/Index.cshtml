@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Assignment>
+
+@{
+    ViewData["Title"] = "Course details";
+}
+
+@*<div class="row justify-content-center">
+        <a asp-controller="Assignment" asp-action="Create" style="float:right;margin-top:20px; margin-right:10px;" class="btn btn-primary bg-success ">
+                <i class="bi bi-plus-circle"></i>
+                &nbsp; Add Assignment
+        </a>
+</div>*@
+<div class="row">
+    <div class="col-md-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Assignment</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Course</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var assignment in Model)
+                {
+                    <tr>
+                        <td>@assignment.AssignmentName</td>
+                        <td>@assignment.DueDate</td>
+                        <td><td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

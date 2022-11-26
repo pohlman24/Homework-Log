@@ -1,0 +1,30 @@
+﻿@model Course
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form method="post" asp-action="DeletePOST">
+    <input asp-for="ID" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Delete Course</h2>
+            <hr />
+        </div>
+        @* This is for a summary of error above form-- i dont like it <div asp-validation-summary="All"></div>*@
+        <div class="mb-3">
+            <label disabled asp-for="CourseName">Course Name</label>
+            <input disabled asp-for="CourseName" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-secondary" style="width: 150px;">Delete</button>
+        <a asp-controller="Course" asp-action="Index" class="btn btn-danger" style="width:150px;">Back to Home</a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
+
