@@ -16,6 +16,27 @@ namespace Homework_Log.Controllers {
 
 		public IActionResult Index() {
 			IEnumerable<Course> objCourseList = _db.Courses.Include(n => n.Assignments.OrderBy(o=>o.DueDate));
+			//if(objCourseList contains any assingments with due date sooner than 1 day ){
+			foreach (var course in objCourseList) 
+			{
+				foreach(var assignment in course.Assignments)
+                {
+					
+					if((assignment.DueDate - DateTime.Now).TotalHours <= 36)
+                    {
+						ViewBag.AlertMsg = "Assignment Due Very Soon";
+						break;
+					}
+					else if((assignment.DueDate - DateTime.Now).TotalHours <= 48){
+						ViewBag.AlertMsg = "Assignment Due Soon";
+						continue;
+					}
+					/*else if((ViewBag.AlertMsg != "Assignment Due Soon" || ViewBag.AlertMsg != "Assignment Due Very Soon") && (assignment.DueDate - DateTime.Now).TotalDays >= 3)
+                    {
+						ViewBag.AlertMsg = "";
+					}*/
+                }
+			}
 			return View(objCourseList);
 			// return View( _db.Courses.ToList()); -- other option
 		}
@@ -108,7 +129,7 @@ namespace Homework_Log.Controllers {
 		public IActionResult Details(int id)
 		{
 			Course CourseFromDb = _db.Courses.Find(id);
-			_db.Entry(CourseFromDb).Collection(p => p.Assignments).Load();
+			_db.Entry(CourseFromDb).Collection(p => p.Assignments).Query().OrderBy(p => p.DueDate).Load();
 			return View(CourseFromDb);
 		}
 

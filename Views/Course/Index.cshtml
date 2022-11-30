@@ -42,8 +42,6 @@
                                     </li>
                                 </ul>  
                             }
-                            
-                            
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -57,4 +55,17 @@
             </div>
         </div>
     }
+</div>
+<div class="row">
+    <div style="position:fixed; bottom: 10%; right:0px; width:30%">
+        @if (@ViewBag.AlertMsg == "Assignment Due Very Soon")
+        {
+            <h2 class="alert alert-danger">@ViewBag.AlertMsg</h2>
+        }
+        @if (@ViewBag.AlertMsg == "Assignment Due Soon")
+        {
+            <h1 class="alert alert-warning">@ViewBag.AlertMsg</h1>
+        }
+    </div>
+    
 </div>

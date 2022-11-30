@@ -4,14 +4,9 @@
     ViewData["Title"] = "Course details";
 }
 
-@*<div class="row justify-content-center">
-        <a asp-controller="Assignment" asp-action="Create" style="float:right;margin-top:20px; margin-right:10px;" class="btn btn-primary bg-success ">
-                <i class="bi bi-plus-circle"></i>
-                &nbsp; Add Assignment
-        </a>
-</div>*@
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 offset-3">
+        <h1>Assignments</h1>
         <table class="table">
             <thead>
                 <tr>
@@ -27,7 +22,7 @@
                     <tr>
                         <td>@assignment.AssignmentName</td>
                         <td>@assignment.DueDate</td>
-                        <td><td>
+                        <td>@assignment.CourseName<td>
                     </tr>
                 }
             </tbody>

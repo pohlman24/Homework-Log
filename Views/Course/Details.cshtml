@@ -4,7 +4,7 @@
     ViewData["Title"] = "Course details";
 }
 
-<div class="row justify-content-center">
+<div class="flex-md-row justify-content-center">
             <a asp-controller="Assignment" asp-action="Create" asp-route-CourseId="@Model.ID" style="float:right;margin-top:20px; margin-right:10px;" class="btn btn-primary bg-success ">
                     Add Assignment &nbsp;
                     <i class="bi bi-plus-circle"></i>
@@ -12,15 +12,16 @@
 </div>
 
 
-<div class="row">
-    <div class="col-md-6">
+<div class="">
+    <div class="col-md-7 offset-3">
         <h1>@Model.CourseName</h1>
 
-        @if(Model.Assignments == null)
+        @if(Model.Assignments == null || Model.Assignments.Count() == 0)
         {
             <p>No Current Assignments</p>
         }
-         <table class="table">
+        else{
+            <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Assignment</th>
@@ -41,13 +42,14 @@
                         <td>@assignment.MaxPoints</td>
                         <td>@assignment.IsCompleted</td>
                         <td>
-                            <input class="btn-danger btn" type="button" value="Delete" onclick="location.href='@Url.Action("Delete", "Assignment", new {id = @assignment.ID})'" asp-action="Delete" asp-controller="Assignment" asp-route-id="@assignment.ID"/>
-                            <input class="btn btn-secondary" type="button" value="Edit" onclick="location.href='@Url.Action("Edit", "Assignment", new {id = @assignment.ID})'" asp-action="Edit" asp-controller="Assignment" asp-route-id="@assignment.ID"/>
+                            <a class="btn-danger btn" asp-action="Delete" asp-controller="Assignment" asp-route-id="@assignment.ID" asp-route-courseID="@Model.ID">Delete</a>
+                            <a class="btn btn-primary" asp-action="Edit" asp-controller="Assignment" asp-route-id="@assignment.ID" asp-route-courseID="@Model.ID">Edit</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+        }
         
     </div>
 

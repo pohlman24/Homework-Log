@@ -26,5 +26,6 @@ namespace Homework_Log.Models {
         public virtual Course Course { get; set; }
         // do i just make the course property a string and only use the courseID to reference the course??? 
 
+        public string CourseName { get; set; } = string.Empty;
     }
 }

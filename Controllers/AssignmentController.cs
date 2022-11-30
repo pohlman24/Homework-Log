@@ -18,7 +18,7 @@ namespace Homework_Log.Controllers
 
 		public IActionResult Index()
 		{
-			IEnumerable<Assignment> objAssignmentList = _db.Assignments;
+			IEnumerable<Assignment> objAssignmentList = _db.Assignments.OrderBy(a => a.DueDate);
 			return View(objAssignmentList);
 		}
 
@@ -40,6 +40,8 @@ namespace Homework_Log.Controllers
 		{
 			Course course = _db.Courses.Find(assignment.CourseID);
 			assignment.Course = course;
+			assignment.CourseName = course.CourseName;
+			int courseID = assignment.CourseID;
 			/*if (ModelState.IsValid)
 			{
 				*//*course.Assignments.Add(assignment);*//*
@@ -49,14 +51,15 @@ namespace Homework_Log.Controllers
 			}*/
 			_db.Assignments.Add(assignment);
 			_db.SaveChanges();
-			//Course/Details/ID
-			return RedirectToAction("Index","Course");
+			return RedirectToAction("Details", "Course", new { id = courseID });
 		}
 
 
 		//GET
-		public ActionResult Delete(int? id)
+		public ActionResult Delete(int? id, int courseID)
 		{
+			ViewBag.CourseName = _db.Courses.Find(courseID).CourseName;
+			ViewBag.CourseID = courseID;
 			if (id == null || id == 0)
 			{
 				return NotFound();
@@ -73,7 +76,7 @@ namespace Homework_Log.Controllers
 
 		//POST 
 		[HttpPost]
-		public IActionResult DeletePOST(int? id)
+		public IActionResult DeletePOST(int? id, int courseID)
 		{
 			var obj = _db.Assignments.Find(id);
 
@@ -86,7 +89,45 @@ namespace Homework_Log.Controllers
 			_db.Assignments.Remove(obj);
 			_db.SaveChanges();
 			TempData["success"] = "Assignment successfully deleted";
-			return RedirectToAction("Index", "Course");
+			return RedirectToAction("Details", "Course", new { id = courseID });
 		}
+
+
+		//GET
+		public IActionResult Edit(int? id, int courseID)
+		{
+			ViewBag.CourseID = courseID;
+			ViewBag.CourseName = _db.Courses.Find(courseID).CourseName;
+			if (id == null || id == 0)
+			{
+				return NotFound();
+			}
+			var assignmentFromDb = _db.Assignments.Find(id);
+
+			if (assignmentFromDb == null)
+			{
+				return NotFound();
+			}
+
+			return View(assignmentFromDb);
+		}
+
+		//POST
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Edit(Assignment obj, int courseID)
+		{
+			// model state is going to compare the object you are trying to access to the model class and see if all required fields are valid 
+			/*if (ModelState.IsValid)
+			{*/
+				_db.Assignments.Update(obj);
+				_db.SaveChanges();
+				TempData["success"] = "Assignment successfully updated";
+			return RedirectToAction("Details", "Course", new { id = courseID });
+			
+			/*TempData["fail"] = "Error changing course";
+			return View(obj);*/
+		}
+
 	}
 }
